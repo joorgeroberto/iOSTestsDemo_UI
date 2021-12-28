@@ -26,9 +26,29 @@ class iOSTestsDemo_UIUITests: XCTestCase {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
+        
+        // Se possuirmos apenas um botão na tela, o element o acessará:
+        // app.buttons.element
 
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        // Se possuirmos mais de um botão na tela, o firstMatch acessará o primeiro botão disponível:
+        // app.buttons.firstMatch
+        // Acessa o botão com o nome definido no array:
+        let loginButton = app.buttons["Login"]
+        
+        // Acessa um texto, uma label específica:
+        // "Título" é o accessibilityIdentifier mas o texto é "Cadastrar"
+        let label = app.staticTexts["Título"]
+        XCTAssertEqual(label.label, "Cadastrar")
+        
+        // Verificando se o elemento existe na tela:
+        XCTAssertTrue(label.exists)
+        
+        // Simulando um toque no botão:
+        loginButton.tap()
+        XCTAssertFalse(label.exists)
+        
+        loginButton.tap()
+        XCTAssertTrue(label.exists)
     }
 
     func testLaunchPerformance() throws {
